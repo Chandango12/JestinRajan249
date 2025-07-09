@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UPI Payment Redirect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f5f5f5;
+        }
+        .redirect-message {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="redirect-message">
+        <h2>Redirecting to UPI Payment...</h2>
+        <p class="loading">Please wait while we redirect you to your UPI app.</p>
+        <p>If you are not redirected automatically, <a href="upi://pay?pa=jestin.rajans@icici&pn=Jestin&am=249&cu=INR" id="manual-link">click here</a>.</p>
+    </div>
+
+    <script>
+        // Function to perform UPI redirect
+        function redirectToUPI() {
+            // UPI payment URL with the specified details
+            const upiURL = "upi://pay?pa=jestin.rajans@icici&pn=Jestin&am=249&cu=INR";
+            
+            try {
+                // Attempt to redirect to UPI app
+                window.location.href = upiURL;
+                
+                // Alternative method for better compatibility
+                setTimeout(function() {
+                    window.open(upiURL, '_self');
+                }, 100);
+                
+            } catch (error) {
+                console.error('Error redirecting to UPI:', error);
+                // Fallback: show manual link
+                document.querySelector('.loading').innerHTML = 'Unable to auto-redirect. Please click the link above.';
+            }
+        }
+
+        // Execute redirect immediately when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            redirectToUPI();
+        });
+
+        // Backup execution in case DOMContentLoaded doesn't fire
+        window.onload = function() {
+            redirectToUPI();
+        };
+
+        // Immediate execution as well for maximum compatibility
+        redirectToUPI();
+    </script>
+</body>
+</html>
